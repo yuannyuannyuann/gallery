@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yuan - Portfolio</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        :root {
+            --primary: #0a0a0f;
+            --secondary: #1a1a2e;
+            --accent: #00ffff;
+            --accent-pink: #ff00ff;
+            --accent-yellow: #ffff00;
+            --accent-orange: #ff6b35;
+            --text: #00ffff;
+            --text-dim: rgba(0, 255, 255, 0.7);
+            --neon-cyan: #00ffff;
+            --neon-pink: #ff00ff;
+        }
+        body { font-family: 'Courier New', monospace; background: var(--primary); color: var(--text); overflow-x: hidden; line-height: 1.6; }
+        .animated-bg { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; background: linear-gradient(180deg, #0a0a0f 0%, #1a0a2e 50%, #0a0a0f 100%); }
+        .animated-bg::before, .animated-bg::after { content: ''; position: absolute; border-radius: 50%; filter: blur(120px); opacity: 0.4; animation: cosmicFloat 25s ease-in-out infinite; }
+        .animated-bg::before { width: 800px; height: 800px; background: radial-gradient(circle, var(--accent) 0%, transparent 70%); top: -400px; right: -300px; mix-blend-mode: screen; }
+        .animated-bg::after { width: 700px; height: 700px; background: radial-gradient(circle, var(--accent-pink) 0%, transparent 70%); bottom: -350px; left: -200px; animation-delay: -12s; mix-blend-mode: screen; }
+        @keyframes cosmicFloat { 0%, 100% { transform: translate(0, 0) scale(1) rotate(0deg); } 25% { transform: translate(150px, -200px) scale(1.2) rotate(90deg); } 50% { transform: translate(-100px, -150px) scale(0.8) rotate(180deg); } 75% { transform: translate(-150px, 100px) scale(1.1) rotate(270deg); } }
+        .scan-lines { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 2; background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0, 255, 255, 0.03) 2px, rgba(0, 255, 255, 0.03) 4px); animation: scanMove 8s linear infinite; }
+        @keyframes scanMove { 0% { transform: translateY(0); } 100% { transform: translateY(100px); } }
+        .grid-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 1; background-image: linear-gradient(var(--neon-cyan) 1px, transparent 1px), linear-gradient(90deg, var(--neon-cyan) 1px, transparent 1px); background-size: 50px 50px; opacity: 0.05; }
+        .stars { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; }
+        .star { position: absolute; width: 2px; height: 2px; background: var(--neon-cyan); border-radius: 50%; box-shadow: 0 0 4px var(--neon-cyan), 0 0 8px var(--neon-cyan); animation: twinkle 4s ease-in-out infinite; }
+        @keyframes twinkle { 0%, 100% { opacity: 0.2; transform: scale(1); } 50% { opacity: 1; transform: scale(1.5); } }
+        .shooting-star { position: fixed; width: 3px; height: 3px; background: var(--neon-cyan); border-radius: 50%; box-shadow: 0 0 10px var(--neon-cyan), 0 0 20px var(--neon-cyan), 0 0 30px var(--neon-cyan); animation: shootingStar 2s ease-out forwards; pointer-events: none; z-index: 1; }
+        @keyframes shootingStar { 0% { transform: translateX(0) translateY(0) rotate(-45deg); opacity: 1; } 100% { transform: translateX(-1000px) translateY(1000px) rotate(-45deg); opacity: 0; } }
+        .shooting-star::before { content: ''; position: absolute; top: 0; right: 0; width: 200px; height: 2px; background: linear-gradient(90deg, rgba(0, 255, 255, 0), var(--neon-cyan), transparent); }
+        .nebula { position: fixed; width: 100%; height: 100%; top: 0; left: 0; pointer-events: none; z-index: -1; opacity: 0.3; }
+        .nebula-blob { position: absolute; border-radius: 50%; filter: blur(100px); animation: nebulaPulse 15s ease-in-out infinite; mix-blend-mode: screen; }
+        @keyframes nebulaPulse { 0%, 100% { transform: scale(1) rotate(0deg); opacity: 0.3; } 50% { transform: scale(1.5) rotate(180deg); opacity: 0.6; } }
+        section { min-height: 100vh; padding: 5rem 2rem; display: flex; align-items: center; justify-content: center; position: relative; z-index: 3; }
+        .container { max-width: 1500px; width: 100%; margin: 0 auto; }
+        .hero { display: grid; grid-template-columns: 1.3fr 1fr; gap: 8rem; align-items: center; }
+        .hero-content h1 { font-size: clamp(5rem, 12vw, 10rem); font-weight: 900; margin-bottom: 2rem; color: var(--neon-cyan); text-transform: uppercase; animation: slideInLeft 1.2s cubic-bezier(0.16, 1, 0.3, 1), textGlow 2s ease-in-out infinite; letter-spacing: 0.1em; text-shadow: 0 0 10px var(--neon-cyan), 0 0 20px var(--neon-cyan), 0 0 40px var(--neon-cyan), 0 0 80px var(--neon-cyan); position: relative; }
+        .hero-content h1::after { content: '//SYSTEM_ACTIVE'; position: absolute; bottom: -20px; left: 0; font-size: 1rem; color: var(--neon-pink); text-shadow: 0 0 10px var(--neon-pink); animation: blink 1s infinite; }
+        @keyframes blink { 0%, 49% { opacity: 1; } 50%, 100% { opacity: 0; } }
+        @keyframes textGlow { 0%, 100% { text-shadow: 0 0 10px var(--neon-cyan), 0 0 20px var(--neon-cyan), 0 0 40px var(--neon-cyan); } 50% { text-shadow: 0 0 20px var(--neon-cyan), 0 0 40px var(--neon-cyan), 0 0 80px var(--neon-cyan), 0 0 120px var(--neon-cyan); } }
+        @keyframes slideInLeft { from { opacity: 0; transform: translateX(-150px) scale(0.8); filter: blur(10px); } to { opacity: 1; transform: translateX(0) scale(1); filter: blur(0); } }
+        .hero-content .slogan { font-size: clamp(2rem, 5vw, 3.5rem); font-weight: 700; margin-bottom: 2.5rem; color: var(--neon-pink); text-transform: uppercase; animation: slideInLeft 1.2s cubic-bezier(0.16, 1, 0.3, 1) 0.2s both; letter-spacing: 0.15em; text-shadow: 0 0 10px var(--neon-pink), 0 0 20px var(--neon-pink), 0 0 40px var(--neon-pink); }
+        .hero-content .subtitle { font-size: clamp(1.2rem, 2.8vw, 1.6rem); color: var(--text-dim); line-height: 2; animation: slideInLeft 1.2s cubic-bezier(0.16, 1, 0.3, 1) 0.4s both; max-width: 650px; border-left: 3px solid var(--neon-cyan); padding-left: 1rem; text-shadow: 0 0 5px rgba(0, 255, 255, 0.5); }
+        .hero-image { display: flex; justify-content: center; animation: slideInRight 1.2s cubic-bezier(0.16, 1, 0.3, 1) 0.3s both; }
+        @keyframes slideInRight { from { opacity: 0; transform: translateX(150px) scale(0.8); filter: blur(10px); } to { opacity: 1; transform: translateX(0) scale(1); filter: blur(0); } }
+        .avatar-container { position: relative; width: clamp(320px, 50vw, 500px); height: clamp(320px, 50vw, 500px); }
+        .avatar-ring { position: absolute; inset: -40px; border-radius: 50%; border: 3px solid transparent; border-top-color: var(--neon-cyan); border-right-color: var(--neon-pink); border-bottom-color: var(--accent-yellow); border-left-color: var(--neon-cyan); animation: rotate 10s linear infinite; box-shadow: 0 0 20px var(--neon-cyan), inset 0 0 20px var(--neon-cyan); }
+        .avatar-glow { position: absolute; inset: -50px; border-radius: 50%; animation: rotate 12s linear infinite, pulseGlow 3s ease-in-out infinite; filter: blur(30px); opacity: 0.8; background: conic-gradient(from 0deg, var(--neon-cyan), var(--neon-pink), var(--accent-yellow), var(--neon-cyan)); }
+        @keyframes rotate { 100% { transform: rotate(360deg); } }
+        @keyframes pulseGlow { 0%, 100% { opacity: 0.6; transform: scale(1); } 50% { opacity: 1; transform: scale(1.1); } }
+        .avatar { position: relative; width: 100%; height: 100%; border-radius: 50%; background: linear-gradient(135deg, var(--secondary), #000); padding: 8px; animation: levitate 8s ease-in-out infinite; box-shadow: 0 0 30px var(--neon-cyan), 0 0 60px var(--neon-pink), inset 0 0 20px rgba(0, 255, 255, 0.3); border: 2px solid var(--neon-cyan); }
+        @keyframes levitate { 0%, 100% { transform: translateY(0px) rotate(0deg); } 25% { transform: translateY(-30px) rotate(5deg); } 50% { transform: translateY(-15px) rotate(-5deg); } 75% { transform: translateY(-35px) rotate(3deg); } }
+        .avatar img { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; background: var(--secondary); border: 3px solid var(--primary); filter: contrast(1.2) brightness(1.1); }
+        .avatar::before { content: ''; position: absolute; inset: -30px; border-radius: 50%; background: conic-gradient(from 0deg, transparent 0deg 90deg, var(--neon-cyan) 90deg 180deg, transparent 180deg 270deg, var(--neon-pink) 270deg 360deg); filter: blur(20px); opacity: 0.6; animation: rotate 8s linear infinite reverse; }
+        .avatar::after { content: 'ONLINE'; position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%); font-size: 0.8rem; color: var(--neon-cyan); background: rgba(0, 0, 0, 0.8); padding: 5px 15px; border: 1px solid var(--neon-cyan); border-radius: 20px; box-shadow: 0 0 10px var(--neon-cyan); animation: blink 2s infinite; z-index: 10; }
+        .glass-card { background: linear-gradient(135deg, rgba(0, 255, 255, 0.05) 0%, rgba(255, 0, 255, 0.05) 100%); backdrop-filter: blur(10px); border: 2px solid var(--neon-cyan); border-radius: 10px; padding: 3.5rem; transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1); position: relative; overflow: hidden; box-shadow: 0 0 20px rgba(0, 255, 255, 0.3), inset 0 0 20px rgba(0, 255, 255, 0.1); }
+        .glass-card::before { content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 100%; background: linear-gradient(90deg, transparent, rgba(0, 255, 255, 0.2), transparent); transition: left 0.6s ease; }
+        .glass-card:hover::before { left: 100%; }
+        .glass-card::after { content: ''; position: absolute; top: -2px; left: -2px; right: -2px; bottom: -2px; background: linear-gradient(45deg, var(--neon-cyan), var(--neon-pink), var(--accent-yellow), var(--neon-cyan)); border-radius: 10px; z-index: -1; opacity: 0; transition: opacity 0.6s ease; }
+        .glass-card:hover { transform: translateY(-20px) scale(1.03); border-color: var(--neon-pink); box-shadow: 0 0 40px var(--neon-cyan), 0 0 80px var(--neon-pink), inset 0 0 30px rgba(0, 255, 255, 0.2); }
+        .glass-card:hover::after { opacity: 0.5; animation: borderRotate 3s linear infinite; }
+        @keyframes borderRotate { 100% { filter: hue-rotate(360deg); } }
+        .section-title { font-size: clamp(3.5rem, 7vw, 6rem); font-weight: 900; margin-bottom: 5rem; text-align: center; color: var(--neon-cyan); text-transform: uppercase; letter-spacing: 0.2em; position: relative; animation: titleGlow 2s ease-in-out infinite; text-shadow: 0 0 10px var(--neon-cyan), 0 0 20px var(--neon-cyan), 0 0 40px var(--neon-cyan), 0 0 80px var(--neon-cyan); }
+        .section-title::before { content: '>>'; position: absolute; left: -80px; top: 50%; transform: translateY(-50%); color: var(--neon-pink); font-size: 3rem; animation: blink 1s infinite; }
+        @keyframes titleGlow { 0%, 100% { text-shadow: 0 0 10px var(--neon-cyan), 0 0 20px var(--neon-cyan), 0 0 40px var(--neon-cyan); } 50% { text-shadow: 0 0 20px var(--neon-cyan), 0 0 40px var(--neon-cyan), 0 0 80px var(--neon-cyan), 0 0 120px var(--neon-cyan); } }
+        .section-title::after { content: ''; position: absolute; bottom: -30px; left: 50%; transform: translateX(-50%); width: 300px; height: 3px; background: linear-gradient(90deg, transparent, var(--neon-cyan), var(--neon-pink), var(--accent-yellow), transparent); box-shadow: 0 0 10px var(--neon-cyan); }
+        .about-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(380px, 1fr)); gap: 3rem; }
+        .about-card h3 { font-size: 2rem; margin-bottom: 1.5rem; color: var(--neon-pink); font-weight: 800; text-transform: uppercase; text-shadow: 0 0 10px var(--neon-pink), 0 0 20px var(--neon-pink); letter-spacing: 0.1em; }
+        .about-card h3::before { content: '['; color: var(--neon-cyan); margin-right: 10px; }
+        .about-card h3::after { content: ']'; color: var(--neon-cyan); margin-left: 10px; }
+        .about-card p { color: var(--text-dim); font-size: 1.1rem; line-height: 2; text-shadow: 0 0 2px rgba(0, 255, 255, 0.3); }
+        .about-card ul { list-style: none; margin-top: 1.5rem; }
+        .about-card ul li { padding-left: 2.5rem; position: relative; margin-bottom: 1rem; color: var(--text-dim); font-size: 1.1rem; transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1); }
+        .about-card ul li::before { content: '►'; position: absolute; left: 0; color: var(--neon-cyan); font-size: 1.2rem; transition: all 0.4s ease; text-shadow: 0 0 10px var(--neon-cyan); }
+        .about-card ul li:hover { color: var(--text); padding-left: 3rem; text-shadow: 0 0 5px var(--neon-cyan); }
+        .about-card ul li:hover::before { left: 0.5rem; color: var(--neon-pink); text-shadow: 0 0 10px var(--neon-pink); }
+        .portfolio-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(380px, 1fr)); gap: 3.5rem; margin-top: 4rem; }
+        .portfolio-card { position: relative; cursor: pointer; transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1); }
+        .portfolio-card:hover { transform: scale(1.08); z-index: 10; }
+        .portfolio-image { width: 100%; height: 350px; background: linear-gradient(135deg, rgba(0, 255, 255, 0.1), rgba(255, 0, 255, 0.1)); border: 2px solid var(--neon-cyan); border-radius: 10px; margin-bottom: 2rem; display: flex; align-items: center; justify-content: center; font-size: 6rem; position: relative; overflow: hidden; transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1); box-shadow: 0 0 20px rgba(0, 255, 255, 0.3), inset 0 0 30px rgba(0, 255, 255, 0.1); }
+        .portfolio-image::before { content: ''; position: absolute; inset: 0; background: linear-gradient(135deg, var(--neon-cyan) 0%, var(--neon-pink) 50%, var(--accent-yellow) 100%); opacity: 0; transition: opacity 0.6s ease; mix-blend-mode: screen; }
+        .portfolio-card:hover .portfolio-image { transform: translateY(-15px); border-color: var(--neon-pink); box-shadow: 0 0 40px var(--neon-cyan), 0 0 80px var(--neon-pink); }
+        .portfolio-card:hover .portfolio-image::before { opacity: 0.2; }
+        .portfolio-image span { position: relative; z-index: 1; filter: drop-shadow(0 0 20px var(--neon-cyan)) drop-shadow(0 0 40px var(--neon-pink)); transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1); }
+        .portfolio-card:hover .portfolio-image span { transform: scale(1.3) rotate(10deg); filter: drop-shadow(0 0 30px var(--neon-cyan)) drop-shadow(0 0 60px var(--neon-pink)) drop-shadow(0 0 80px var(--accent-yellow)); }
+        .portfolio-card h3 { font-size: 2rem; margin-bottom: 1.2rem; color: var(--neon-cyan); font-weight: 800; transition: all 0.4s ease; text-transform: uppercase; text-shadow: 0 0 10px var(--neon-cyan); }
+        .portfolio-card:hover h3 { color: var(--neon-pink); text-shadow: 0 0 10px var(--neon-pink), 0 0 20px var(--neon-pink); }
+        .portfolio-card p { color: var(--text-dim); font-size: 1.1rem; line-height: 1.9; }
+        @media (max-width: 768px) { .hero { grid-template-columns: 1fr; gap: 4rem; text-align: center; } .hero-image { order: -1; } section { padding: 4rem 1.5rem; } .about-grid, .portfolio-grid { grid-template-columns: 1fr; } .glass-card { padding: 2.5rem; } .hero-content .subtitle { max-width: 100%; } .section-title::before { display: none; } }
+        .fade-in { opacity: 0; transform: translateY(60px); animation: fadeInUp 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+        @keyframes fadeInUp { to { opacity: 1; transform: translateY(0); } }
+    </style>
+</head>
+<body>
+    <div class="animated-bg"></div>
+    <div class="scan-lines"></div>
+    <div class="grid-overlay"></div>
+    <div class="nebula" id="nebula"></div>
+    <div class="stars" id="stars"></div>
+    <section id="hero">
+        <div class="container"><div class="hero"><div class="hero-content"><h1>Yuan</h1><p class="slogan">Be myself.</p><p class="subtitle">專注於技術、創造與不斷突破自我的學習者</p></div><div class="hero-image"><div class="avatar-container"><div class="avatar-ring"></div><div class="avatar-glow"></div><div class="avatar"><img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 400'%3E%3Cdefs%3E%3ClinearGradient id='bg' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' style='stop-color:%231a1a2e'/%3E%3Cstop offset='100%25' style='stop-color:%23000'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect fill='url(%23bg)' width='400' height='400'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-size='200' fill='%2300ffff' font-family='monospace' font-weight='900'%3EY%3C/text%3E%3C/svg%3E" alt="Yuan"></div></div></div></div></div>
+    </section>
+    <section id="about">
+        <div class="container"><h2 class="section-title fade-in">About</h2><div class="about-grid"><div class="glass-card about-card fade-in"><h3>教育背景</h3><p>就讀於大甲高工資訊科，培養出強大的自學能力與問題解決思維。專注於將理論轉化為實際可運作的技術方案。</p></div><div class="glass-card about-card fade-in"><h3>技術競賽</h3><p>在國中時期參與打字競賽，展現高效的資訊處理能力：</p><ul><li>英文打字：每分鐘 200+ 字</li><li>中文打字：每分鐘 90+ 字</li></ul></div><div class="glass-card about-card fade-in"><h3>創作實踐</h3><p>使用 Scratch 創作「無人機應用」主題程式動畫作品，以視覺化方式呈現技術概念，榮獲比賽佳作，展現創意思維與敘事能力。</p></div><div class="glass-card about-card fade-in"><h3>機器人競賽</h3><p>參與自主移動機器人競賽，在缺乏專業指導的情況下，獨立完成從程式撰寫到硬體整合的完整開發流程。</p></div><div class="glass-card about-card fade-in"><h3>工程整合能力</h3><p>使用 LabVIEW 開發控制系統，實現複雜的工程整合：</p><ul><li>優先序邏輯（Priority）設計</li><li>影像文字與物件辨識分析</li><li>NI Vision 影像處理技術</li><li>MyRIO 控制器程式開發</li><li>PID 控制系統調校</li><li>電路控制、感測器整合與機構運動控制</li></ul></div><div class="glass-card about-card fade-in"><h3>核心價值</h3><p>相信技術的本質在於解決問題。透過不斷實作與自我挑戰，將理論知識轉化為可應用的解決方案，創造無限可能。</p></div></div></div>
+    </section>
+    <section id="portfolio">
+        <div class="container"><h2 class="section-title fade-in">Portfolio</h2><div class="portfolio-grid"><div class="glass-card portfolio-card fade-in"><div class="portfolio-image"><span>🤖</span></div><h3>自主移動機器人</h3><p>運用 LabVIEW 開發完整控制系統，整合影像處理、PID 控制與感測器技術，實現自主導航與物件辨識功能。</p></div><div class="glass-card portfolio-card fade-in"><div class="portfolio-image"><span>✈️</span></div><h3>無人機應用動畫</h3><p>以 Scratch 創作互動式程式動畫，展示無人機技術應用場景，結合視覺設計與程式邏輯，榮獲比賽佳作。</p></div><div class="glass-card portfolio-card fade-in"><div class="portfolio-image"><span>⚙️</span></div><h3>控制系統整合</h3><p>從電路設計到程式撰寫，完成機電整合專案。涵蓋 MyRIO 控制器、影像辨識、機構運動控制等多領域技術實踐。</p></div></div></div>
+    </section>
+    <script>
+        const s=document.getElementById('stars');for(let i=0;i<100;i++){const st=document.createElement('div');st.className='star';st.style.left=Math.random()*100+'%';st.style.top=Math.random()*100+'%';st.style.animationDelay=Math.random()*3+'s';s.appendChild(st);}
+        const n=document.getElementById('nebula');const colors=['#00ffff','#ff00ff','#ffff00'];for(let i=0;i<3;i++){const b=document.createElement('div');b.className='nebula-blob';b.style.width=Math.random()*400+200+'px';b.style.height=b.style.width;b.style.left=Math.random()*100+'%';b.style.top=Math.random()*100+'%';b.style.background=colors[i];b.style.animationDelay=i*5+'s';n.appendChild(b);}
+        function createShootingStar(){const ss=document.createElement('div');ss.className='shooting-star';ss.style.left=Math.random()*100+'%';ss.style.top=Math.random()*50+'%';document.body.appendChild(ss);setTimeout(()=>ss.remove(),2000);}
+        setInterval(createShootingStar,3000);
+        const o=new IntersectionObserver(e=>{e.forEach((en,i)=>{if(en.isIntersecting){setTimeout(()=>{en.target.style.animationDelay=i*0.1+'s';en.target.classList.add('fade-in');},i*100);o.unobserve(en.target);}})},{threshold:0.1,rootMargin:'0px 0px -100px 0px'});
+        document.querySelectorAll('.glass-card, .section-title').forEach(el=>o.observe(el));
+        document.querySelectorAll('a[href^="#"]').forEach(a=>a.addEventListener('click',function(e){e.preventDefault();const t=
